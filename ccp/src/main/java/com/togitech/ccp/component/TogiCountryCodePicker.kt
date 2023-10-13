@@ -165,6 +165,17 @@ fun TogiCountryCodePicker(
                 text = preFilteredPhoneNumber,
                 selection = TextRange(preFilteredPhoneNumber.length),
             )
+            val enteredCountryCode = phoneParsingUtils.getCountryCode(phoneNumber.text)
+
+            if (enteredCountryCode.isNotEmpty()) {
+                country = CountryData.isoMap.getOrDefault(enteredCountryCode, country)
+                val nationalNumber = phoneParsingUtils.getNationalNumber(preFilteredPhoneNumber)
+                phoneNumber = TextFieldValue(
+                    text = nationalNumber,
+                    selection = TextRange(nationalNumber.length),
+                )
+            }
+
             isNumberValid = phoneParsingUtils.isValidPhoneNumber(
                 fullPhoneNumber = country.countryPhoneCode + phoneNumber.text,
             )
